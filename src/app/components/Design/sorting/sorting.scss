@@ -1,18 +1,20 @@
-.sorting-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
+:host {
+  .sorting-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 
-.sorting-actions app-round-button .app-btn-round {
-  border: 1px solid var(--gray-100);
-  color: var(--text-color);
-  background: white;
-}
+    app-round-button .app-btn-round {
+      border: 1px solid var(--gray-100);
+      color: var(--text-color);
+      background: var(--surface-solid);
+    }
 
-.sorting-actions app-round-button .app-btn-round:hover,
-.sorting-actions app-round-button.is-active .app-btn-round {
-  background-color: var(--light);
-  color: var(--primary);
+    app-round-button .app-btn-round:hover,
+    app-round-button.is-active .app-btn-round {
+      background-color: var(--light);
+      color: var(--primary);
+    }
+  }
 }

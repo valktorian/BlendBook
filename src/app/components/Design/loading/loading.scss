@@ -4,19 +4,19 @@
   min-height: 140px;
   align-items: center;
   justify-content: center;
-}
 
-.loading-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  color: #6b7280;
-}
+  .loading-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: var(--text-muted);
+  }
 
-.loading-spinner {
-  animation: app-spin 0.9s linear infinite;
-  pointer-events: none;
+  .loading-spinner {
+    animation: app-spin 0.9s linear infinite;
+    pointer-events: none;
+  }
 }
 
 @keyframes app-spin {

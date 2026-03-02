@@ -1,0 +1,83 @@
+<form class="add-cocktail-form" (submit)="$event.preventDefault(); submit()">
+  <h3 class="add-cocktail-form__title">Ajouter un cocktail</h3>
+
+  <div class="add-cocktail-form__grid">
+    <app-input
+      label="Nom"
+      placeholder="Ex: Negroni"
+      [required]="true"
+      [value]="name()"
+      (valueChange)="name.set($event)"
+    />
+
+    <app-input
+      label="Image URL"
+      placeholder="https://..."
+      type="url"
+      [value]="imageUrl()"
+      (valueChange)="imageUrl.set($event)"
+    />
+
+    <app-input
+      label="Categorie"
+      placeholder="Ex: Contemporary Classics"
+      [value]="category()"
+      (valueChange)="category.set($event)"
+    />
+
+    <app-input
+      label="Verre"
+      placeholder="Ex: Old Fashioned Glass"
+      [value]="glass()"
+      (valueChange)="glass.set($event)"
+    />
+
+    <label class="add-cocktail-form__toggle">
+      <input
+        type="checkbox"
+        [checked]="alcoholic()"
+        (change)="alcoholic.set($any($event.target).checked)"
+      />
+      <span>Alcoolise</span>
+    </label>
+  </div>
+
+  <app-input
+    label="Instructions"
+    placeholder="Ex: Stir ingredients with ice, strain into chilled glass..."
+    [required]="true"
+    [multiline]="true"
+    [rows]="4"
+    [value]="instructions()"
+    (valueChange)="instructions.set($event)"
+  />
+
+  <app-input
+    label="Description"
+    placeholder="Une courte description du cocktail"
+    [multiline]="true"
+    [rows]="3"
+    [value]="description()"
+    (valueChange)="description.set($event)"
+  />
+
+  <app-input
+    label="Ingredients"
+    placeholder="Gin, Campari, Sweet Vermouth"
+    [value]="ingredientsText()"
+    (valueChange)="ingredientsText.set($event)"
+  />
+
+  <app-input
+    label="Tags"
+    placeholder="Bitter, Aperitif, Classic"
+    [value]="tagsText()"
+    (valueChange)="tagsText.set($event)"
+  />
+
+  <div class="add-cocktail-form__actions">
+    <app-round-button [class.is-disabled]="!isValid()" (clicked)="submit()">
+      {{ submitLabel() }}
+    </app-round-button>
+  </div>
+</form>

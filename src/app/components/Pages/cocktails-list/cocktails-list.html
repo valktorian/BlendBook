@@ -31,20 +31,35 @@
     (createdAtToggle)="toggleCreatedAtSort()"
   />
 
-  <ul class="mb-20">
+  <ul
+    #cocktailsListEl
+    class="cocktails-list-items"
+    tabindex="0"
+    role="listbox"
+    aria-label="Liste des cocktails"
+    (keydown)="onListKeydown($event)"
+  >
     @for (c of cocktails(); track c.id) {
       <li
         class="px-12 py-6"
         [class.active-item]="selectedId() === c.id"
         [class.text-primary]="selectedId() === c.id"
+        [attr.aria-selected]="selectedId() === c.id"
         (click)="select(c)"
       >
         <div class="item-row">
-          <div class="flex align-items-center gap-12">
+          <div class="item-name-group">
             @if (getImageUrl(c)) {
               <img class="cocktail-thumb" [src]="getImageUrl(c)" [alt]="c.name" />
             }
             <h3>{{ c.name }}</h3>
+            <app-round-button
+              class="edit-btn"
+              [iconOnly]="true"
+              (click)="openEditCocktailModal(c); $event.stopPropagation()"
+            >
+              <app-icon name="edit" [size]="18" ariaLabel="Editer cocktail" />
+            </app-round-button>
           </div>
           @if (c.created_at) {
             <p class="item-meta">{{ formatCreatedAt(c.created_at) }}</p>
@@ -54,12 +69,20 @@
     }
   </ul>
 
+  <div class="list-actions">
+    <app-round-button class="add-btn" (clicked)="openAddCocktailModal()">
+      <app-icon name="circle-plus-solid-full" [size]="18" ariaLabel="Ajouter cocktail" />
+      Add cocktail
+    </app-round-button>
+  </div>
+
   <div class="list-footer">
     <div class="pagination-block">
-      <p class="pagination-info mb-20">
+      <p class="pagination-info">
         Page {{ currentPage() }} / {{ totalPages() }} - {{ totalCount() }} cocktails
       </p>
       <app-pagination
+        class="compact-pagination"
         [currentPage]="currentPage()"
         [totalPages]="totalPages()"
         (pageChange)="onPageChange($event)"
@@ -67,3 +90,22 @@
     </div>
   </div>
 }
+
+@if (showAddCocktailModal()) {
+  <div class="add-cocktail-modal-backdrop" (click)="closeAddCocktailModal()">
+    <div class="add-cocktail-modal card" (click)="$event.stopPropagation()">
+      <div class="add-cocktail-modal__header">
+        <h3>{{ isEditMode() ? 'Editer le cocktail' : 'Nouveau cocktail' }}</h3>
+        <app-round-button [iconOnly]="true" (clicked)="closeAddCocktailModal()">
+          <app-icon name="xmark-solid-full" [size]="16" ariaLabel="Fermer" />
+        </app-round-button>
+      </div>
+      <app-add-cocktail-form
+        [initialValue]="formSeed()"
+        [submitLabel]="isEditMode() ? 'Enregistrer' : 'Ajouter le cocktail'"
+        (submitCocktail)="onCocktailCreated($event)"
+      />
+    </div>
+  </div>
+}
+

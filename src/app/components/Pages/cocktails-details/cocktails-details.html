@@ -4,6 +4,20 @@
   </div>
 } @else if (cocktail()) {
   <div class="details-layout">
+    <div class="info-head">
+      <h2>{{ cocktail()!.name }}</h2>
+      <div class="like-row">
+        <app-round-button class="like-btn" (clicked)="toggleLike()">
+          <span class="like-label">{{ liked() ? 'Unlike' : 'Like' }}</span>
+          <app-icon
+            [name]="liked() ? 'heart-solid-full' : 'heart-regular-full'"
+            [size]="20"
+            ariaLabel="Like cocktail"
+          />
+        </app-round-button>
+      </div>
+    </div>
+
     <div class="media-frame">
       @if (getImageUrl(cocktail()!)) {
         <img
@@ -17,7 +31,6 @@
     </div>
 
     <div class="info-block">
-      <h2>{{ cocktail()!.name }}</h2>
       <p class="meta-line">
         {{ cocktail()!.alcoholic ? 'Alcoolise' : 'Sans alcool' }}
         @if (cocktail()!.category) {

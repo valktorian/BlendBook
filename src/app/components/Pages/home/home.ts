@@ -1,4 +1,3 @@
-import { httpResource } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoundButton } from '../../Design/buttons/round-button/round-button';
@@ -17,29 +16,46 @@ import { Cocktail } from '../../../shared/Models/cocktail.model';
 export class Home {
   private readonly cocktailsService = inject(CocktailsService);
   private readonly router = inject(Router);
-  readonly cocktailsResource = httpResource(
+  readonly alcoholicCocktailsResource = this.cocktailsService.createCocktailsResource(
     () =>
-      this.cocktailsService.buildCocktailsResourceRequest({
+      ({
         page: 1,
-        perPage: 8,
+        perPage: 4,
         sortBy: 'created_at',
-        sortDir: 'asc',
+        sortDir: 'desc',
+        alcoholic: true,
       }),
-    {
-      parse: (raw) => this.cocktailsService.mapCocktailsPage(raw),
-      defaultValue: { data: [] },
-    },
   );
-  readonly cocktails = computed(() => this.cocktailsResource.value().data ?? []);
-  readonly loading = computed(() => this.cocktailsResource.isLoading());
+  readonly nonAlcoholicCocktailsResource = this.cocktailsService.createCocktailsResource(
+    () =>
+      ({
+        page: 1,
+        perPage: 4,
+        sortBy: 'created_at',
+        sortDir: 'desc',
+        alcoholic: false,
+      }),
+  );
+
+  readonly cocktails = computed(() => [
+    ...(this.alcoholicCocktailsResource.value().data ?? []),
+    ...(this.nonAlcoholicCocktailsResource.value().data ?? []),
+  ]);
+  readonly loading = computed(
+    () => this.alcoholicCocktailsResource.isLoading() || this.nonAlcoholicCocktailsResource.isLoading(),
+  );
   readonly error = computed(() =>
-    this.cocktailsResource.error() ? 'Impossible de charger les cocktails.' : null,
+    this.alcoholicCocktailsResource.error() || this.nonAlcoholicCocktailsResource.error()
+      ? 'Impossible de charger les cocktails.'
+      : null,
   );
 
   readonly secondaryImage = computed(
     () => this.getImageUrl(this.cocktails()[2]) || this.getImageUrl(this.cocktails()[3]),
   );
-  readonly featuredCocktails = computed(() => this.cocktails().slice(0, 8));
+  readonly featuredCocktails = computed(() => {
+    return this.cocktails();
+  });
 
   goToCocktails(): void {
     this.router.navigateByUrl('/cocktails');

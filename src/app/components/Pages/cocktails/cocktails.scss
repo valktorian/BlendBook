@@ -3,10 +3,8 @@
   gap: 24px;
   padding: 24px;
   align-items: stretch;
-}
 
-@media (max-width: 1024px) {
-  :host {
+  @media (max-width: 1024px) {
     flex-direction: column;
     gap: 16px;
     padding: 16px;

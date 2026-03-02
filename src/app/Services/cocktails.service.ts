@@ -1,3 +1,4 @@
+import { httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Cocktail } from '../shared/Models/cocktail.model';
 import { Ingredient } from '../shared/Models/ingredient.model';
@@ -24,10 +25,38 @@ export interface GetIngredientsOptions {
   sortDir?: SortDir;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class CocktailsService {
   private readonly baseUrl = 'https://boozeapi.com/api/v1';
   private readonly apiOrigin = 'https://boozeapi.com';
+
+  createCocktailsResource(
+    options: () => GetCocktailsOptions,
+    defaultValue: PagedResponse<Cocktail> = { data: [] },
+  ): HttpResourceRef<PagedResponse<Cocktail>> {
+    return httpResource(
+      () => this.buildCocktailsResourceRequest(options()),
+      {
+        parse: (raw) => this.mapCocktailsPage(raw),
+        defaultValue,
+      },
+    );
+  }
+
+  createCocktailByIdResource(
+    id: () => number | string | null | undefined,
+  ): HttpResourceRef<Cocktail | undefined> {
+    return httpResource(
+      () => {
+        const value = id();
+        if (value == null || value === '') return undefined;
+        return this.buildCocktailByIdResourceRequest(value);
+      },
+      {
+        parse: (raw) => this.mapCocktailEntity(raw),
+      },
+    );
+  }
 
   buildCocktailsResourceRequest(options?: GetCocktailsOptions) {
     return {

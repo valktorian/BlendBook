@@ -14,11 +14,32 @@
 
   <app-square-button
     class="header-btn cart-btn"
-    [active]="isActive('/panier')"
+    [active]="showCartDialog()"
     [iconOnly]="true"
-    (clicked)="go('/panier')"
+    (clicked)="toggleCartDialog()"
   >
     <span class="cart-square" aria-hidden="true"></span>
     <app-icon name="cart" [size]="20" ariaLabel="Panier" />
+    @if (likedCount() > 0) {
+      <span class="cart-badge">{{ likedCount() }}</span>
+    }
   </app-square-button>
 </nav>
+
+@if (showCartDialog()) {
+  <div class="cart-dialog-backdrop" (click)="closeCartDialog()">
+    <div class="cart-dialog card" (click)="$event.stopPropagation()">
+      <div class="cart-dialog__head">
+        <h3>Cart</h3>
+        <app-round-button [iconOnly]="true" (clicked)="closeCartDialog()">
+          <app-icon name="xmark-solid-full" [size]="14" ariaLabel="Fermer" />
+        </app-round-button>
+      </div>
+      <app-cart
+        [cocktails]="likedCocktails()"
+        (cocktailSelected)="onCartCocktailSelected($event)"
+        (unlikeCocktail)="onUnlikeCocktail($event)"
+      />
+    </div>
+  </div>
+}

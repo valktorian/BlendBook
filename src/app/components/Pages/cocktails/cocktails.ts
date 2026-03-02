@@ -1,4 +1,3 @@
-import { httpResource } from '@angular/common/http';
 import { Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
@@ -20,15 +19,8 @@ export class Cocktails {
   private readonly pendingPreselectedId = signal<string | null>(
     this.route.snapshot.queryParamMap.get('selected'),
   );
-  private readonly routeCocktailResource = httpResource(
-    () => {
-      const id = this.pendingPreselectedId();
-      if (!id) return undefined;
-      return this.cocktailsService.buildCocktailByIdResourceRequest(id);
-    },
-    {
-      parse: (raw) => this.cocktailsService.mapCocktailEntity(raw),
-    },
+  private readonly routeCocktailResource = this.cocktailsService.createCocktailByIdResource(
+    () => this.pendingPreselectedId(),
   );
 
   readonly selectedCocktail = signal<Cocktail | null>(null);

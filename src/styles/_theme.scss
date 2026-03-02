@@ -9,7 +9,7 @@ body {
   padding: 24px;
   border-radius: var(--radius);
   border: var(--border);
-  background-color: rgba(255, 255, 255, 0.35);
+  background-color: var(--surface-card);
 }
 
 @media (max-width: 768px) {
@@ -20,7 +20,7 @@ body {
 }
 
 .active-item {
-  background-color: rgba(233, 128, 116, 0.22);
+  background-color: var(--active-soft);
   color: var(--primary);
   border-radius: var(--radius);
 }
@@ -47,7 +47,7 @@ body {
 }
 
 .app-btn-round {
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 8px 14px;
 }
 
@@ -58,7 +58,7 @@ app-round-button.is-icon-only .app-btn-round {
 }
 
 .app-btn-square {
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   padding: 8px 10px;
 }
 
@@ -75,7 +75,7 @@ app-square-button.is-icon-only .app-btn-square {
 }
 
 app-header .app-btn {
-  color: white;
+  color: var(--surface-solid);
 }
 
 app-header .app-btn-round:hover,
@@ -90,11 +90,27 @@ app-header .app-btn-square.is-active {
 
 app-round-button.add-btn .app-btn-round {
   background-color: var(--primary);
-  color: white;
+  color: var(--surface-solid);
 }
 
 app-round-button.add-btn .app-btn-round:hover {
   background-color: var(--dark);
+  color: var(--surface-solid);
+}
+
+app-round-button.add-btn app-icon:hover {
+  color: var(--surface-solid);
+}
+
+app-cocktails-details app-round-button.like-btn .app-btn-round {
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-soft);
+  background-color: var(--surface-soft);
+}
+
+app-cocktails-details app-round-button.like-btn .app-btn-round:hover {
+  background-color: var(--action-hover-soft);
 }
 
 .app-pagination {
@@ -115,27 +131,29 @@ app-round-button.add-btn .app-btn-round:hover {
 
 .app-pagination__btn {
   border: 1px solid var(--gray-100);
-  background-color: white;
+  background-color: var(--surface-solid);
   color: var(--text-color);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   padding: 6px 10px;
   font: inherit;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .app-pagination__btn:hover:not(:disabled) {
-  background-color: rgba(233, 128, 116, 0.22);
+  background-color: var(--active-soft);
 }
 
 .app-pagination__btn.is-active {
   background-color: var(--primary);
-  color: white;
+  color: var(--surface-solid);
   border-color: var(--primary);
 }
 
 .app-pagination__btn:disabled {
-  opacity: 0.55;
+  opacity: var(--opacity-disabled);
   cursor: not-allowed;
 }
 

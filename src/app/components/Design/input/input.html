@@ -1,0 +1,30 @@
+<label class="app-input__field">
+  @if (label()) {
+    <span class="app-input__label">
+      {{ label() }}
+      @if (required()) {
+        <span class="app-input__required">*</span>
+      }
+    </span>
+  }
+
+  @if (multiline()) {
+    <textarea
+      class="app-input__control app-input__control--textarea"
+      [placeholder]="placeholder()"
+      [required]="required()"
+      [rows]="rows()"
+      [value]="value()"
+      (input)="onInput($event)"
+    ></textarea>
+  } @else {
+    <input
+      class="app-input__control"
+      [type]="type()"
+      [placeholder]="placeholder()"
+      [required]="required()"
+      [value]="value()"
+      (input)="onInput($event)"
+    />
+  }
+</label>
