@@ -14,7 +14,8 @@
       [placeholder]="placeholder()"
       [required]="required()"
       [rows]="rows()"
-      [value]="value()"
+      [value]="innerValue()"
+      [disabled]="disabled()"
       (input)="onInput($event)"
     ></textarea>
   } @else {
@@ -23,7 +24,8 @@
       [type]="type()"
       [placeholder]="placeholder()"
       [required]="required()"
-      [value]="value()"
+      [value]="innerValue()"
+      [disabled]="disabled()"
       (input)="onInput($event)"
     />
   }

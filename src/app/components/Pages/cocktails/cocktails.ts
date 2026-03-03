@@ -55,10 +55,12 @@ export class Cocktails {
   }
 
   onCocktailSelected(cocktail: Cocktail | null): void {
-    const pendingId = this.pendingPreselectedId();
-    if (pendingId && cocktail == null) {
+    if (cocktail == null) {
+      this.selectedCocktail.set(null);
+      this.pendingPreselectedId.set(null);
       return;
     }
+    const pendingId = this.pendingPreselectedId();
     if (pendingId && cocktail && String(cocktail.id) !== pendingId) {
       // User picked a different item than the route-preselected one: switch to manual mode.
       this.selectedCocktail.set(cocktail);

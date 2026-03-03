@@ -2,14 +2,13 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Icon } from '../icon/icon';
 import { RoundButton } from '../buttons/round-button/round-button';
-import { SquareButton } from '../buttons/square-button/square-button';
 import { Cart } from '../cart/cart';
 import { LikedCocktailsService } from '../../../Services/liked-cocktails.service';
 import { Cocktail } from '../../../shared/Models/cocktail.model';
 
 @Component({
   selector: 'app-header',
-  imports: [Icon, RoundButton, SquareButton, Cart],
+  imports: [Icon, RoundButton, Cart],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

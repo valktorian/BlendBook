@@ -20,18 +20,17 @@
     <app-icon name="hungerbox-cafe" [size]="25" ariaLabel="Liste des ingredients" />
   </app-round-button>
 
-  <app-square-button
+  <app-round-button
     class="header-btn cart-btn"
     [active]="showCartDialog()"
     [iconOnly]="true"
     (clicked)="toggleCartDialog()"
   >
-    <span class="cart-square" aria-hidden="true"></span>
     <app-icon name="cart" [size]="25" ariaLabel="Panier" />
     @if (likedCount() > 0) {
       <span class="cart-badge">{{ likedCount() }}</span>
     }
-  </app-square-button>
+  </app-round-button>
 </nav>
 
 @if (showCartDialog()) {

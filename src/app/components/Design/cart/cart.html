@@ -15,9 +15,14 @@
             }
             <span class="cart-item__name">{{ cocktail.name }}</span>
           </div>
-          <button type="button" class="cart-item__unlike" (click)="onUnlike(cocktail, $event)">
+          <app-round-button
+            class="cart-item__unlike"
+            [iconOnly]="true"
+            (click)="$event.stopPropagation()"
+            (clicked)="onUnlike(cocktail)"
+          >
             <app-icon name="heart-solid-full" [size]="25" ariaLabel="Retirer des likes" />
-          </button>
+          </app-round-button>
         </li>
       }
     </ul>

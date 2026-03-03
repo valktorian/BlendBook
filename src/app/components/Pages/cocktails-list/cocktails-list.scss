@@ -22,19 +22,6 @@
     align-items: center;
   }
 
-  app-round-button.title-btn .app-btn-round {
-    border: 1px solid var(--gray-100);
-    background: var(--surface-solid);
-    color: var(--text-color);
-    min-height: 40px;
-    padding: 8px 14px;
-  }
-
-  app-round-button.title-btn .app-btn-round:hover {
-    background: var(--active-soft);
-    color: var(--primary);
-  }
-
   .list-controls {
     display: flex;
     align-items: center;
@@ -193,18 +180,6 @@
     flex: 0 0 22px;
   }
 
-  app-round-button.edit-btn .app-btn-round {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    padding: 0;
-    border: 1px solid var(--border-soft);
-    background-color: var(--surface-soft);
-
-    &:hover {
-      background-color: var(--action-hover-soft);
-    }
-  }
 }
 
 @media (max-width: 768px) {

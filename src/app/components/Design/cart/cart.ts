@@ -1,11 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import { Cocktail } from '../../../shared/Models/cocktail.model';
 import { Icon } from '../icon/icon';
+import { RoundButton } from '../buttons/round-button/round-button';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [Icon],
+  imports: [Icon, RoundButton],
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
 })
@@ -18,8 +19,7 @@ export class Cart {
     this.cocktailSelected.emit(cocktail);
   }
 
-  onUnlike(cocktail: Cocktail, event: Event): void {
-    event.stopPropagation();
+  onUnlike(cocktail: Cocktail): void {
     this.unlikeCocktail.emit(cocktail.id);
   }
 }

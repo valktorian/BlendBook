@@ -31,31 +31,11 @@
 
   .cart-btn {
     position: relative;
-    overflow: hidden;
 
     app-icon {
       position: relative;
       z-index: 1;
     }
-
-    &:hover .cart-square,
-    &.is-active .cart-square {
-      transform: scale(1.08);
-      background-color: var(--header-square-hover);
-    }
-  }
-
-  .cart-square {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 6px;
-    background-color: var(--header-square);
-    transform: scale(0.92);
-    transition:
-      transform 0.2s ease,
-      background-color 0.2s ease;
-    z-index: 0;
   }
 
   .cart-badge {

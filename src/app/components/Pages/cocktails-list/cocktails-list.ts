@@ -143,7 +143,6 @@ export class CocktailsList {
       if (this.sortBy() !== 'created_at') this.sortBy.set('created_at');
       if (this.sortDir() !== 'asc') this.sortDir.set('asc');
       if (this.createdAtSortDir() !== 'asc') this.createdAtSortDir.set('asc');
-      if (this.currentPage() !== 1) this.currentPage.set(1);
     });
     effect(() => {
       const preselected = this.preselectedId();
@@ -163,9 +162,11 @@ export class CocktailsList {
         return;
       }
 
-      if (currentSelectedId == null) {
-        const selected = items[0];
-        this.select(selected);
+      if (
+        currentSelectedId != null &&
+        !items.some((cocktail) => String(cocktail.id) === String(currentSelectedId))
+      ) {
+        this.resetSelection();
       }
     });
   }

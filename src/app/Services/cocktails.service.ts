@@ -41,6 +41,7 @@ export class CocktailsService {
       () => {
         const value = id();
         if (value == null || value === '') return undefined;
+        if (typeof value === 'string' && value.startsWith('local-')) return undefined;
         return this.buildCocktailByIdResourceRequest(value);
       },
       {

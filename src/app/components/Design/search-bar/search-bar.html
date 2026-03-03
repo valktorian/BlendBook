@@ -7,7 +7,11 @@
     (input)="onInput($event)"
     (keydown.enter)="submit()"
   />
-  <app-round-button class="search-btn" [iconOnly]="true" (clicked)="submit()">
-    <app-icon name="magnifying-glass-solid-full" [size]="25" ariaLabel="Rechercher" />
-  </app-round-button>
+  <app-icon
+    class="search-btn"
+    name="magnifying-glass-solid-full"
+    [size]="25"
+    ariaLabel="Rechercher"
+    (click)="submit()"
+  />
 </div>

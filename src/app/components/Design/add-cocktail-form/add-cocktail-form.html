@@ -1,4 +1,4 @@
-<form class="add-cocktail-form" (submit)="$event.preventDefault(); submit()">
+<form class="add-cocktail-form" [formGroup]="form" (submit)="$event.preventDefault(); submit()">
   <h3 class="add-cocktail-form__title">Ajouter un cocktail</h3>
 
   <div class="add-cocktail-form__grid">
@@ -6,38 +6,31 @@
       label="Nom"
       placeholder="Ex: Negroni"
       [required]="true"
-      [value]="name()"
-      (valueChange)="name.set($event)"
+      formControlName="name"
     />
 
     <app-input
       label="Image URL"
       placeholder="https://..."
       type="url"
-      [value]="imageUrl()"
-      (valueChange)="imageUrl.set($event)"
+      [required]="true"
+      formControlName="imageUrl"
     />
 
     <app-input
       label="Categorie"
       placeholder="Ex: Contemporary Classics"
-      [value]="category()"
-      (valueChange)="category.set($event)"
+      formControlName="category"
     />
 
     <app-input
       label="Verre"
       placeholder="Ex: Old Fashioned Glass"
-      [value]="glass()"
-      (valueChange)="glass.set($event)"
+      formControlName="glass"
     />
 
     <label class="add-cocktail-form__toggle">
-      <input
-        type="checkbox"
-        [checked]="alcoholic()"
-        (change)="alcoholic.set($any($event.target).checked)"
-      />
+      <input type="checkbox" formControlName="alcoholic" />
       <span>Alcoolise</span>
     </label>
   </div>
@@ -48,8 +41,7 @@
     [required]="true"
     [multiline]="true"
     [rows]="4"
-    [value]="instructions()"
-    (valueChange)="instructions.set($event)"
+    formControlName="instructions"
   />
 
   <app-input
@@ -57,26 +49,24 @@
     placeholder="Une courte description du cocktail"
     [multiline]="true"
     [rows]="3"
-    [value]="description()"
-    (valueChange)="description.set($event)"
+    formControlName="description"
   />
 
   <app-input
     label="Ingredients"
     placeholder="Gin, Campari, Sweet Vermouth"
-    [value]="ingredientsText()"
-    (valueChange)="ingredientsText.set($event)"
+    [required]="true"
+    formControlName="ingredientsText"
   />
 
   <app-input
     label="Tags"
     placeholder="Bitter, Aperitif, Classic"
-    [value]="tagsText()"
-    (valueChange)="tagsText.set($event)"
+    formControlName="tagsText"
   />
 
   <div class="add-cocktail-form__actions">
-    <app-round-button class="add-btn" [class.is-disabled]="!isValid()" (clicked)="submit()">
+    <app-round-button class="add-btn" [class.is-disabled]="!isValid" (clicked)="submit()">
       @if (isSaveAction()) {
         <app-icon name="save" [size]="20" ariaLabel="Enregistrer" />
       }

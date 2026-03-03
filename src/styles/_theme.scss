@@ -88,47 +88,45 @@ app-header .app-btn-square.is-active {
   background-color: var(--header-bg-hover);
 }
 
-app-round-button.add-btn .app-btn-round {
-  background-color: var(--primary);
-  color: var(--surface-solid);
+app-round-button .app-btn-round {
+  border: var(--rb-border, 1px solid var(--primary));
+  background-color: var(--rb-bg, var(--primary));
+  color: var(--rb-color, var(--surface-solid));
+  border-radius: var(--rb-radius, var(--radius-pill));
+  min-width: var(--rb-min-width, auto);
+  width: var(--rb-width, auto);
+  height: var(--rb-height, auto);
+  min-height: var(--rb-min-height, auto);
+  padding: var(--rb-padding, 8px 14px);
 }
 
-app-round-button.add-btn .app-btn-round:hover {
-  background-color: var(--dark);
-  color: var(--surface-solid);
+app-round-button .app-btn-round:hover {
+  background-color: var(--rb-bg-hover, var(--dark));
+  color: var(--rb-color-hover, var(--surface-solid));
 }
 
-app-round-button.swap-btn .app-btn-round {
-  min-height: 40px;
-  padding: 8px 14px;
-  border: 1px solid var(--primary);
-  border-radius: var(--radius-pill);
-  background-color: var(--primary);
-  color: var(--surface-solid);
+app-round-button.edit-btn {
+  --rb-width: 28px;
+  --rb-height: 28px;
+  --rb-min-width: 28px;
+  --rb-padding: 0;
+  --rb-border: 1px solid var(--border-soft);
+  --rb-bg: var(--surface-soft);
+  --rb-color: var(--text-color);
+  --rb-bg-hover: var(--action-hover-soft);
+  --rb-color-hover: var(--text-color);
 }
 
-app-round-button.swap-btn .app-btn-round:hover {
-  background-color: var(--dark);
-  color: var(--surface-solid);
+app-round-button.swap-btn {
+  --rb-min-height: 40px;
 }
 
-app-round-button.add-btn .app-btn-round:hover app-icon,
-app-round-button.swap-btn .app-btn-round:hover app-icon,
-app-cocktails-details app-round-button.like-btn .app-btn-round:hover app-icon {
+app-round-button:not(.edit-btn) .app-btn-round:hover app-icon {
   color: #610c63;
 }
 
-app-cocktails-details app-round-button.like-btn .app-btn-round {
-  min-height: 42px;
-  padding: 8px 14px;
-  border: 1px solid var(--primary);
-  background-color: var(--primary);
-  color: var(--surface-solid);
-}
-
-app-cocktails-details app-round-button.like-btn .app-btn-round:hover {
-  background-color: var(--dark);
-  color: var(--surface-solid);
+app-cocktails-details app-round-button.like-btn {
+  --rb-min-height: 42px;
 }
 
 .app-pagination {

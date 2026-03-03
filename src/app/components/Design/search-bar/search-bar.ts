@@ -1,10 +1,9 @@
 import { Component, effect, input, output, signal } from '@angular/core';
-import { RoundButton } from '../buttons/round-button/round-button';
 import { Icon } from '../icon/icon';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [RoundButton, Icon],
+  imports: [Icon],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.scss',
 })

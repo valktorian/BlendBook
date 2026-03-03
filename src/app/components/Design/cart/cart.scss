@@ -55,21 +55,9 @@
       }
 
       &__unlike {
-        width: 28px;
-        height: 28px;
-        min-width: 28px;
-        padding: 0;
-        border-radius: var(--radius-pill);
-        border: 1px solid var(--border-soft);
-        background-color: var(--surface-solid);
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-
-        &:hover {
-          background-color: var(--action-hover-soft);
-        }
       }
     }
   }
