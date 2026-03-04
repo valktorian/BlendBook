@@ -36,16 +36,6 @@
 
   .sort-row {
     display: block;
-
-    app-round-button {
-      &:first-child {
-        margin-left: 34px;
-      }
-
-      &:last-child {
-        margin-left: auto;
-      }
-    }
   }
 
   .item-row {
@@ -56,15 +46,45 @@
     width: 100%;
   }
 
-  .item-name-group {
+  .item-main {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .item-text {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .item-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  app-round-button.edit-btn,
+  app-round-button.delete-btn {
+    --rb-width: 24px;
+    --rb-height: 24px;
+    --rb-min-width: 24px;
+    --rb-padding: 0;
+  }
+
+  app-round-button.delete-btn {
+    --rb-border: 1px solid var(--danger-border);
+    --rb-bg: var(--danger-200);
+    --rb-color: var(--danger-700);
+    --rb-bg-hover: var(--danger-300);
+    --rb-color-hover: var(--danger-800);
   }
 
   .item-meta {
-    margin: 0 0 0 auto;
+    margin: 0;
     font-size: 0.8rem;
     color: var(--text-dim);
     white-space: nowrap;
@@ -179,7 +199,6 @@
     border-radius: 6px;
     flex: 0 0 22px;
   }
-
 }
 
 @media (max-width: 768px) {

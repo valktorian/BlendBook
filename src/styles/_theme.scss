@@ -122,7 +122,7 @@ app-round-button.swap-btn {
 }
 
 app-round-button:not(.edit-btn) .app-btn-round:hover app-icon {
-  color: #610c63;
+  color: var(--accent-700);
 }
 
 app-cocktails-details app-round-button.like-btn {

@@ -54,6 +54,7 @@ export class CocktailsList {
   readonly formSeed = signal<NewCocktailFormValue | null>(null);
   readonly localCocktails = signal<Cocktail[]>([]);
   readonly localEdits = signal<Record<string, Cocktail>>({});
+  readonly deletedCocktailIds = signal<string[]>([]);
   readonly isSearchMode = computed(() => !!this.searchTerm().trim());
   readonly cocktailsResource = this.cocktailsService.createCocktailsResource(
     () => ({
@@ -65,10 +66,10 @@ export class CocktailsList {
     }),
     { data: [] },
   );
-  readonly cocktailsAutocompleteResource = this.cocktailsService.createCocktailsAutocompleteResource(
-    () => this.searchTerm(),
-    { data: [] },
-  );
+  readonly cocktailsAutocompleteResource =
+    this.cocktailsService.createCocktailsAutocompleteResource(() => this.searchTerm(), {
+      data: [],
+    });
   readonly preselectedCocktailResource = this.cocktailsService.createCocktailByIdResource(() =>
     this.preselectedId(),
   );
@@ -84,6 +85,7 @@ export class CocktailsList {
   );
 
   readonly cocktails = computed(() => {
+    const deleted = new Set(this.deletedCocktailIds());
     const edits = this.localEdits();
     const base = [...this.filteredLocalCocktails(), ...this.remoteCocktails()];
     const preselected = this.preselectedCocktailResource.value();
@@ -91,37 +93,40 @@ export class CocktailsList {
       preselected && !base.some((cocktail) => String(cocktail.id) === String(preselected.id))
         ? [preselected, ...base]
         : base;
-    const merged = withPreselected.map(
-      (cocktail) => edits[String(cocktail.id)] ?? cocktail,
-    );
+    const merged = withPreselected
+      .filter((cocktail) => !deleted.has(String(cocktail.id)))
+      .map((cocktail) => edits[String(cocktail.id)] ?? cocktail);
     const filtered = merged.filter((cocktail) => this.matchesCurrentFilters(cocktail));
     return this.sortCocktails(filtered);
   });
   readonly loading = computed(() =>
-    this.isSearchMode() ? this.cocktailsAutocompleteResource.isLoading() : this.cocktailsResource.isLoading(),
+    this.isSearchMode()
+      ? this.cocktailsAutocompleteResource.isLoading()
+      : this.cocktailsResource.isLoading(),
   );
   readonly error = computed(() =>
-    (this.isSearchMode() ? this.cocktailsAutocompleteResource.error() : this.cocktailsResource.error())
+    (
+      this.isSearchMode()
+        ? this.cocktailsAutocompleteResource.error()
+        : this.cocktailsResource.error()
+    )
       ? 'Impossible de charger les cocktails.'
       : null,
   );
-  readonly totalPages = computed(
-    () => {
-      const source = this.isSearchMode()
-        ? this.cocktailsAutocompleteResource.value()
-        : this.cocktailsResource.value();
-      return source.pagination?.pages ?? source.meta?.totalPages ?? 1;
-    },
-  );
-  readonly totalCount = computed(
-    () => {
-      const source = this.isSearchMode()
-        ? this.cocktailsAutocompleteResource.value()
-        : this.cocktailsResource.value();
-      const remoteCount = source.pagination?.count ?? source.meta?.totalItems ?? source.data?.length ?? 0;
-      return remoteCount + this.filteredLocalCocktails().length;
-    },
-  );
+  readonly totalPages = computed(() => {
+    const source = this.isSearchMode()
+      ? this.cocktailsAutocompleteResource.value()
+      : this.cocktailsResource.value();
+    return source.pagination?.pages ?? source.meta?.totalPages ?? 1;
+  });
+  readonly totalCount = computed(() => {
+    const source = this.isSearchMode()
+      ? this.cocktailsAutocompleteResource.value()
+      : this.cocktailsResource.value();
+    const remoteCount =
+      source.pagination?.count ?? source.meta?.totalItems ?? source.data?.length ?? 0;
+    return remoteCount + this.filteredLocalCocktails().length;
+  });
   readonly isEditMode = computed(() => this.editingCocktailId() != null);
 
   constructor() {
@@ -286,6 +291,22 @@ export class CocktailsList {
     this.showAddCocktailModal.set(true);
   }
 
+  deleteCocktail(cocktail: Cocktail): void {
+    const id = String(cocktail.id);
+    this.localCocktails.update((items) => items.filter((item) => String(item.id) !== id));
+    this.localEdits.update((edits) => {
+      const next = { ...edits };
+      delete next[id];
+      return next;
+    });
+    this.deletedCocktailIds.update((ids) => (ids.includes(id) ? ids : [id, ...ids]));
+    this.persistMockCocktails();
+
+    if (String(this.selectedId()) === id) {
+      this.resetSelection();
+    }
+  }
+
   onCocktailCreated(payload: NewCocktailFormValue): void {
     const editingId = this.editingCocktailId();
     if (editingId != null) {
@@ -409,6 +430,7 @@ export class CocktailsList {
           .filter((item): item is Cocktail => item !== null);
         this.localCocktails.set(items);
         this.localEdits.set({});
+        this.deletedCocktailIds.set([]);
         return;
       }
 
@@ -416,6 +438,7 @@ export class CocktailsList {
         const record = parsed as Record<string, unknown>;
         const locals = Array.isArray(record['locals']) ? record['locals'] : [];
         const edits = Array.isArray(record['edits']) ? record['edits'] : [];
+        const deletedIds = Array.isArray(record['deletedIds']) ? record['deletedIds'] : [];
 
         const localItems: Cocktail[] = locals
           .map((item) => this.toMockCocktail(item))
@@ -431,10 +454,14 @@ export class CocktailsList {
             return acc;
           }, {}),
         );
+        this.deletedCocktailIds.set(
+          deletedIds.filter((id): id is string => typeof id === 'string'),
+        );
       }
     } catch {
       this.localCocktails.set([]);
       this.localEdits.set({});
+      this.deletedCocktailIds.set([]);
     }
   }
 
@@ -443,6 +470,7 @@ export class CocktailsList {
     const payload = {
       locals: this.localCocktails(),
       edits: Object.values(this.localEdits()),
+      deletedIds: this.deletedCocktailIds(),
     };
     window.localStorage.setItem(this.mockStorageKey, JSON.stringify(payload));
   }

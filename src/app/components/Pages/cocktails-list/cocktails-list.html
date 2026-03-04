@@ -9,7 +9,7 @@
   <app-round-button class="swap-btn" (clicked)="toggleAlcoholic()">
     <app-icon
       [name]="alcoholicOnly() ? 'wine' : 'wine-off'"
-      [size]="20"
+      [size]="16"
       [ariaLabel]="alcoholicOnly() ? 'Liste alcoolisee' : 'Liste sans alcool'"
     />
     {{ alcoholicOnly() ? 'Liste alcoolisee' : 'Liste sans alcool' }}
@@ -52,22 +52,33 @@
         (click)="select(c)"
       >
         <div class="item-row">
-          <div class="item-name-group">
+          <div class="item-main">
             @if (getImageUrl(c)) {
               <img class="cocktail-thumb" [src]="getImageUrl(c)" [alt]="c.name" />
             }
-            <h3>{{ c.name }}</h3>
+            <div class="item-text">
+              <h3>{{ c.name }}</h3>
+              @if (c.created_at) {
+                <p class="item-meta">{{ formatCreatedAt(c.created_at) }}</p>
+              }
+            </div>
+          </div>
+          <div class="item-actions">
             <app-round-button
               class="edit-btn"
               [iconOnly]="true"
               (click)="openEditCocktailModal(c); $event.stopPropagation()"
             >
-              <app-icon name="edit" [size]="18" ariaLabel="Editer cocktail" />
+              <app-icon name="edit" [size]="20" ariaLabel="Editer cocktail" />
+            </app-round-button>
+            <app-round-button
+              class="delete-btn"
+              [iconOnly]="true"
+              (click)="deleteCocktail(c); $event.stopPropagation()"
+            >
+              <app-icon name="trash-can-solid-full" [size]="16" ariaLabel="Supprimer cocktail" />
             </app-round-button>
           </div>
-          @if (c.created_at) {
-            <p class="item-meta">{{ formatCreatedAt(c.created_at) }}</p>
-          }
         </div>
       </li>
     }

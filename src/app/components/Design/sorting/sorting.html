@@ -21,11 +21,7 @@
     (clicked)="createdAtToggle.emit()"
   >
     <app-icon
-      [name]="
-        createdAtDir() === 'desc'
-          ? 'arrow-down-short-wide-solid-full'
-          : 'arrow-down-wide-short-solid-full'
-      "
+      [name]="createdAtDir() === 'desc' ? 'datefns-down' : 'datefns'"
       [size]="25"
       ariaLabel="Tri date"
     />
