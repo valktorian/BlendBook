@@ -15,6 +15,7 @@ import { Loading } from '../../Design/loading/loading';
 import { SearchBar } from '../../Design/search-bar/search-bar';
 import { Pagination } from '../../Design/pagination/pagination';
 import { CocktailsService, SortDir } from '../../../Services/cocktails.service';
+import { ToastService } from '../../../Services/toast.service';
 import { Cocktail } from '../../../shared/Models/cocktail.model';
 import { SortBy, Sorting } from '../../Design/sorting/sorting';
 import {
@@ -31,6 +32,7 @@ import {
 })
 export class CocktailsList {
   private readonly cocktailsService = inject(CocktailsService);
+  private readonly toastService = inject(ToastService);
   private readonly mockStorageKey = 'cocktails.mock.items.v1';
   private readonly pageStorageKey = 'cocktails.page.v1';
   @ViewChild('cocktailsListEl') private cocktailsListEl?: ElementRef<HTMLUListElement>;
@@ -305,6 +307,8 @@ export class CocktailsList {
     if (String(this.selectedId()) === id) {
       this.resetSelection();
     }
+
+    this.toastService.success(`Cocktail "${cocktail.name}" supprime.`);
   }
 
   onCocktailCreated(payload: NewCocktailFormValue): void {
@@ -333,12 +337,14 @@ export class CocktailsList {
     this.ensureListMatchesCocktail(created);
     this.closeAddCocktailModal();
     this.select(created);
+    this.toastService.success(`Cocktail "${created.name}" ajoute.`);
   }
 
   private applyCocktailEdit(id: Cocktail['id'], payload: NewCocktailFormValue): void {
     const source = this.cocktails().find((cocktail) => String(cocktail.id) === String(id));
     if (!source) {
       this.closeAddCocktailModal();
+      this.toastService.error('Cocktail introuvable pour la modification.');
       return;
     }
 
@@ -363,6 +369,7 @@ export class CocktailsList {
     this.ensureListMatchesCocktail(updated);
     this.closeAddCocktailModal();
     this.select(updated);
+    this.toastService.success(`Cocktail "${updated.name}" modifie.`);
   }
 
   private ensureListMatchesCocktail(cocktail: Cocktail): void {
