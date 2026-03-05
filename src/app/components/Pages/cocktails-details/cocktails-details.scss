@@ -11,6 +11,21 @@
     justify-content: center;
   }
 
+  .details-empty {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-dim);
+    min-height: 320px;
+
+    p {
+      margin: 0;
+    }
+  }
+
   .details-layout {
     width: 100%;
     display: flex;

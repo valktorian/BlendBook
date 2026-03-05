@@ -120,6 +120,20 @@
     background: var(--surface-muted);
     border: 1px solid var(--gray-100);
     display: grid;
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lift);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
 
     img {
       width: 100%;

@@ -64,9 +64,6 @@ export class Ingredients {
     this.selectedIngredientId(),
   );
   readonly selectedIngredient = computed(() => this.ingredientDetailsResource.value() ?? null);
-  readonly detailsLoading = computed(
-    () => this.selectedIngredientId() != null && this.ingredientDetailsResource.isLoading(),
-  );
   readonly loading = computed(() =>
     this.isSearchMode()
       ? this.ingredientsAutocompleteResource.isLoading()

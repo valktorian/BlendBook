@@ -31,6 +31,7 @@
   --surface-media: #f3efe7;
   --surface-overlay: #eae7dcd1;
   --surface-app-dark: #1f0f20;
+  --app-bg: linear-gradient(160deg, #f5f2ea 0%, #e9e3d3 100%);
 
   /* Overlays */
   --overlay-backdrop: #1f100d6b;
@@ -41,6 +42,7 @@
   --border-soft: #d8c3a5f2;
   --border-muted: #d8c3a58c;
   --border-subtle: #d8c3a5b3;
+  --list-line-color: #c9b391;
 
   /* Text */
   --text-soft: #ffffffc7;
@@ -68,6 +70,8 @@
   /* Interaction */
   --action-hover-soft: #e85a4f24;
   --active-soft: #e9807438;
+  --active-item-bg: var(--active-soft);
+  --active-item-color: var(--primary);
   --focus-ring: #e85a4f29;
   --opacity-disabled: 0.55;
 
@@ -75,4 +79,138 @@
   --shadow-soft: 0 8px 22px #8e8d8a2e;
   --shadow-lift: 0 10px 18px #00000014;
   --shadow-panel: 0 10px 24px #4a3f381f;
+}
+
+:root[data-theme='moon'] {
+  --text-color: #ffffff;
+  --gray-100: #3b466f;
+  --gray-700: #8f9bc7;
+  --light: #0f152b;
+  --primary: #e7efff;
+  --dark: #9bb2e8;
+  --accent-700: #f4f8ff;
+
+  --header-bg: #121a35;
+  --header-bg-hover: #c7d9ff1f;
+
+  --surface-card: #1a2447b8;
+  --surface-soft: #2d3a67d4;
+  --surface-solid: #1b274f;
+  --surface-muted: #1a2447a6;
+  --surface-panel: #172142;
+  --surface-media: #111a36;
+  --surface-overlay: #0b1024db;
+  --surface-app-dark: #070c1c;
+  --app-bg:
+    radial-gradient(circle at 20% 15%, #3a4b8a55 0%, #3a4b8a00 38%),
+    radial-gradient(circle at 82% 8%, #8fb7ff2e 0%, #8fb7ff00 30%),
+    linear-gradient(165deg, #0a1124 0%, #111a35 55%, #0b1430 100%);
+
+  --overlay-backdrop: #030713c2;
+  --overlay-hero-top: #132553a8;
+  --overlay-hero-bottom: #1325536e;
+
+  --border-soft: #7f95c9f2;
+  --border-muted: #7f95c988;
+  --border-subtle: #7f95c9b3;
+  --list-line-color: #7e96cb;
+
+  --text-soft: #ffffffcc;
+  --text-soft-strong: #ffffff;
+  --text-dim: #ffffffbf;
+  --text-contrast: #ffffff;
+  --text-muted: #d5ddff;
+  --rb-color-hover-default: #0f152b;
+
+  --success-200: #0f2f29;
+  --success-700: #56f0c5;
+  --success-border: #1fd7a3;
+  --warning-200: #32280d;
+  --warning-700: #ffd97a;
+  --warning-border: #ffc14a;
+  --error-200: #391320;
+  --error-700: #ff8db0;
+  --error-border: #ff5f8f;
+  --danger-200: #391320;
+  --danger-300: #4a1a2a;
+  --danger-700: #ff8db0;
+  --danger-800: #ff6b97;
+  --danger-border: #ff5f8f;
+
+  --action-hover-soft: #e7efff30;
+  --active-soft: #2f3f74;
+  --active-item-bg: #354a87;
+  --active-item-color: #ffffff;
+  --focus-ring: #e7efff5c;
+
+  --shadow-soft: 0 8px 22px #0105116e;
+  --shadow-lift: 0 10px 18px #0000004a;
+  --shadow-panel: 0 10px 24px #01051199;
+}
+
+:root[data-theme='night-meteor'] {
+  --text-color: #ffffff;
+  --gray-100: #2f4b73;
+  --gray-700: #7ea2c8;
+  --light: #061427;
+  --primary: #54d9ff;
+  --dark: #3bb7df;
+  --accent-700: #8cffd8;
+
+  --header-bg: #071a33;
+  --header-bg-hover: #7ce6ff2b;
+
+  --surface-card: #0c2746bf;
+  --surface-soft: #12365fcf;
+  --surface-solid: #0f3158;
+  --surface-muted: #0c2746ad;
+  --surface-panel: #0b2a4c;
+  --surface-media: #081f3a;
+  --surface-overlay: #03101fde;
+  --surface-app-dark: #020b18;
+  --app-bg:
+    radial-gradient(circle at 18% 14%, #54d9ff40 0%, #54d9ff00 30%),
+    radial-gradient(circle at 78% 18%, #8cffd835 0%, #8cffd800 28%),
+    radial-gradient(circle at 52% 85%, #54d9ff22 0%, #54d9ff00 35%),
+    linear-gradient(170deg, #020b18 0%, #071a33 52%, #0a2342 100%);
+
+  --overlay-backdrop: #010911cf;
+  --overlay-hero-top: #07426ea8;
+  --overlay-hero-bottom: #07426e70;
+
+  --border-soft: #3d6799f2;
+  --border-muted: #3d67998c;
+  --border-subtle: #3d6799b3;
+  --list-line-color: #4f7db3;
+
+  --text-soft: #ffffffcc;
+  --text-soft-strong: #ffffff;
+  --text-dim: #ffffffbf;
+  --text-contrast: #ffffff;
+  --text-muted: #d2ecff;
+
+  --success-200: #073228;
+  --success-700: #5cf8ca;
+  --success-border: #2ee8b3;
+  --warning-200: #34280a;
+  --warning-700: #ffe07d;
+  --warning-border: #ffc24c;
+  --error-200: #3a1220;
+  --error-700: #ff93b6;
+  --error-border: #ff5f90;
+  --danger-200: #3a1220;
+  --danger-300: #4d192b;
+  --danger-700: #ff93b6;
+  --danger-800: #ff6f9c;
+  --danger-border: #ff5f90;
+
+  --action-hover-soft: #54d9ff2e;
+  --active-soft: #3bb7df42;
+  --active-item-bg: var(--active-soft);
+  --active-item-color: var(--primary);
+  --focus-ring: #54d9ff5e;
+
+  --shadow-soft: 0 8px 22px #010b176b;
+  --shadow-lift: 0 10px 18px #00000052;
+  --shadow-panel: 0 10px 24px #010b17a3;
 }

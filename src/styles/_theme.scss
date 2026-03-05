@@ -2,6 +2,7 @@ body {
   font-family: var(--font-family);
   font-optical-sizing: auto;
   color: var(--text-color);
+  background: var(--app-bg);
   background-color: var(--light);
 }
 
@@ -17,16 +18,6 @@ body {
     padding: 16px;
     border-radius: 16px;
   }
-}
-
-.active-item {
-  background-color: var(--active-soft);
-  color: var(--primary);
-  border-radius: var(--radius);
-}
-
-.text-primary {
-  color: var(--primary);
 }
 
 .app-btn {
@@ -102,7 +93,7 @@ app-round-button .app-btn-round {
 
 app-round-button .app-btn-round:hover {
   background-color: var(--rb-bg-hover, var(--dark));
-  color: var(--rb-color-hover, var(--surface-solid));
+  color: var(--rb-color-hover, var(--rb-color-hover-default, var(--surface-solid)));
 }
 
 app-round-button.edit-btn {

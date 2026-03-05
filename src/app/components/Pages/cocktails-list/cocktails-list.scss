@@ -8,6 +8,15 @@
   li {
     cursor: pointer;
     border-radius: var(--radius-sm);
+    border: 1px solid var(--list-line-color);
+    background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
+
+    &.active-item {
+      background: var(--active-item-bg, var(--active-soft));
+      color: var(--active-item-color, var(--primary));
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 45%, transparent);
+    }
   }
 
   h3 {
@@ -97,6 +106,8 @@
   }
 
   .cocktails-list-items {
+    display: grid;
+    gap: 6px;
     margin-bottom: 8px;
 
     &:focus-visible {

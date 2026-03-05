@@ -17,6 +17,12 @@
     margin-left: auto;
   }
 
+  .theme-btn {
+    position: absolute;
+    left: 16px;
+    z-index: 2;
+  }
+
   .brand-btn {
     position: absolute;
     left: 50%;
@@ -100,8 +106,13 @@
       width: 100%;
     }
 
+    .theme-btn {
+      position: static;
+      margin-right: auto;
+    }
+
     .header-nav {
-      width: 100%;
+      width: auto;
       justify-content: space-between;
     }
 

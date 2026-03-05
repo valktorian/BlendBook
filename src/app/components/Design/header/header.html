@@ -3,6 +3,10 @@
   <span class="brand-text">Blendbook</span>
 </app-round-button>
 
+<app-round-button class="header-btn theme-btn" [iconOnly]="true" (clicked)="toggleTheme()">
+  <app-icon [name]="nextThemeIcon()" [size]="22" [ariaLabel]="nextThemeLabel()" />
+</app-round-button>
+
 <nav class="header-nav">
   <app-round-button
     class="header-btn"

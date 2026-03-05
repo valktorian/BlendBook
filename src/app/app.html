@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header [theme]="theme()" (themeChange)="onThemeChange($event)"></app-header>
 <main class="flex-auto">
   <router-outlet></router-outlet>
 </main>
