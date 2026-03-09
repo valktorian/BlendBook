@@ -133,6 +133,10 @@
     scroll-behavior: smooth;
   }
 
+  .ingredient-mobile-card {
+    display: none;
+  }
+
   .ingredient-details-enter {
     animation: ingredient-details-pull-down 460ms cubic-bezier(0.22, 1, 0.36, 1);
     transform-origin: top center;
@@ -273,6 +277,90 @@
     }
   }
 
+  .ingredient-mobile-card {
+    &__head {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    &__media {
+      width: 88px;
+      height: 88px;
+      border-radius: 20px;
+      border: 1px solid var(--gray-100);
+      background: var(--surface-media);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    &__placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 10px;
+      color: var(--text-dim);
+      background: var(--surface-panel);
+    }
+
+    &__title {
+      min-width: 0;
+
+      h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+      }
+
+      p {
+        margin: 4px 0 0;
+        color: var(--text-dim);
+        font-size: 0.88rem;
+      }
+    }
+
+    &__facts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    &__fact {
+      display: grid;
+      gap: 4px;
+      padding: 10px;
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      background: var(--surface-panel);
+
+      strong {
+        font-size: 0.72rem;
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      span {
+        font-size: 0.82rem;
+        line-height: 1.35;
+        color: var(--text-color);
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+
   .ingredients-footer {
     display: grid;
     gap: 6px;
@@ -323,57 +411,21 @@
       overflow: visible;
     }
 
+    .ingredient-mobile-card {
+      display: block;
+    }
+
     .ingredient-scene {
-      min-height: auto;
-      display: grid;
-      gap: 14px;
-      justify-items: center;
-    }
-
-    .ingredient-center {
-      width: min(180px, 56vw);
-      padding: 10px;
-    }
-
-    .ingredient-orbit {
-      position: static;
-      left: auto;
-      top: auto;
-      width: 100%;
-      height: auto;
-      transform: none;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    .detail-point-wrap {
-      position: static;
-      left: auto;
-      top: auto;
-      transform: none !important;
-      width: 100%;
-    }
-
-    .detail-point {
-      min-width: 0;
-      max-width: none;
-      width: 100%;
-      padding: 8px 10px;
-      transform: none;
-
-      span {
-        font-size: 0.78rem;
-      }
-
-      &:hover {
-        transform: none;
-      }
+      display: none;
     }
 
     .ingredient-description {
       margin-top: 14px;
       padding: 10px;
+    }
+
+    .ingredient-mobile-card__facts {
+      grid-template-columns: 1fr;
     }
   }
 }

@@ -32,28 +32,34 @@
       }
     </div>
 
-    <div class="info-block">
-      <p class="meta-line">
-        {{
-          cocktail()!.alcoholic
-            ? ('cocktails.details.alcoholic' | translate)
-            : ('cocktails.details.nonAlcoholic' | translate)
-        }}
-        @if (cocktail()!.category) {
-          <span> &bull; {{ cocktail()!.category }}</span>
-        }
-        @if (cocktail()!.glass) {
-          <span> &bull; {{ cocktail()!.glass }}</span>
-        }
-      </p>
+      <div class="info-block">
+        <p class="meta-line">
+          <span>
+            {{
+              cocktail()!.alcoholic
+                ? ('cocktails.details.alcoholic' | translate)
+                : ('cocktails.details.nonAlcoholic' | translate)
+            }}
+          </span>
+          @if (cocktail()!.category) {
+            <span>{{ cocktail()!.category }}</span>
+          }
+          @if (cocktail()!.glass) {
+            <span>{{ cocktail()!.glass }}</span>
+          }
+        </p>
 
       <div class="facts-grid">
         @if (cocktail()!.glass) {
-          <p><strong>{{ 'cocktails.details.glass' | translate }}</strong> {{ cocktail()!.glass }}</p>
+          <p class="fact-card fact-card--glass">
+            <strong>{{ 'cocktails.details.glass' | translate }}</strong> {{ cocktail()!.glass }}
+          </p>
         }
 
         @if (cocktail()!.instructions) {
-          <p><strong>{{ 'cocktails.details.instructions' | translate }}</strong> {{ cocktail()!.instructions }}</p>
+          <p class="fact-card fact-card--instructions">
+            <strong>{{ 'cocktails.details.instructions' | translate }}</strong> {{ cocktail()!.instructions }}
+          </p>
         }
       </div>
 

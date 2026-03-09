@@ -71,6 +71,39 @@
               (keydown.enter)="onDetailsEnter($event)"
             >
               <div [animate.enter]="'ingredient-details-enter'">
+                <div class="ingredient-mobile-card">
+                  <div class="ingredient-mobile-card__head">
+                    <div class="ingredient-mobile-card__media">
+                      @if (selectedIngredient()?.imageUrl) {
+                        <img
+                          [src]="selectedIngredient()!.imageUrl"
+                          [alt]="selectedIngredient()!.name"
+                        />
+                      } @else {
+                        <div class="ingredient-mobile-card__placeholder">
+                          {{ selectedIngredient()?.name || ingredient.name }}
+                        </div>
+                      }
+                    </div>
+
+                    <div class="ingredient-mobile-card__title">
+                      <h3>{{ selectedIngredient()?.name || ingredient.name }}</h3>
+                      @if (selectedIngredient()?.type) {
+                        <p>{{ selectedIngredient()!.type }}</p>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="ingredient-mobile-card__facts">
+                    @for (point of detailPoints(selectedIngredient()); track point.label) {
+                      <div class="ingredient-mobile-card__fact">
+                        <strong>{{ point.label }}</strong>
+                        <span>{{ point.value }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+
                 <div class="ingredient-scene">
                   <div class="ingredient-orbit">
                     @for (

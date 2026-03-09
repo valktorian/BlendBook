@@ -147,13 +147,186 @@
 
 @media (max-width: 768px) {
   :host {
+    min-height: auto;
+
+    .details-layout {
+      display: grid;
+      gap: 14px;
+    }
+
     .media-frame {
+      order: 1;
+      width: 100%;
       max-width: 100%;
+      margin-inline: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      place-items: stretch;
+    }
+
+    .info-head {
+      order: 2;
+      position: relative;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 36px;
+      margin-bottom: 0;
+
+      h2 {
+        text-align: center;
+        font-size: 1.15rem;
+        line-height: 1.1;
+        flex: 0 1 auto;
+        max-width: calc(100% - 48px);
+      }
+    }
+
+    .like-row {
+      position: static;
+      top: auto;
+      right: auto;
+      justify-content: center;
+      width: auto;
+      flex: 0 0 auto;
+      align-self: center;
+    }
+
+    app-round-button.like-btn {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+    }
+
+    .like-btn {
+      --rb-width: 36px;
+      --rb-height: 36px;
+      --rb-min-width: 36px;
+      --rb-min-height: 36px;
+      --rb-padding: 0;
+      --rb-radius: 50%;
+      flex: 0 0 36px;
+    }
+
+    .like-label {
+      display: none;
     }
 
     .detail-image {
+      display: block;
       width: 100%;
-      max-height: min(48vh, 360px);
+      min-width: 100%;
+      height: auto;
+      max-height: none;
+      object-fit: initial;
+      border-radius: 0;
+      background: var(--surface-media);
+    }
+
+    .media-placeholder {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+      padding: 18px 16px;
+      font-size: 0.88rem;
+    }
+
+    .info-block {
+      order: 3;
+      margin-top: 0;
+      padding: 0;
+      border-top: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-line {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      font-size: 0.76rem;
+      line-height: 1.35;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+
+      > span,
+      & {
+        color: var(--text-dim);
+      }
+    }
+
+    .meta-line {
+      > span {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border: 1px solid var(--gray-100);
+        border-radius: var(--radius-pill);
+        background: var(--surface-panel);
+      }
+    }
+
+    .facts-grid .fact-card--glass {
+      display: none;
+    }
+
+    .facts-grid {
+      display: grid;
+      gap: 10px;
+
+      p {
+        margin: 0;
+        padding: 12px 14px;
+        border: 1px solid var(--gray-100);
+        border-radius: 16px;
+        background: var(--surface-panel);
+        font-size: 0.9rem;
+        line-height: 1.5;
+
+        strong {
+          display: block;
+          margin-bottom: 6px;
+          font-size: 0.74rem;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          color: var(--primary);
+        }
+      }
+    }
+
+    .chip-group {
+      margin: 0;
+      padding: 14px;
+      border: 1px solid var(--gray-100);
+      border-radius: 18px;
+      background: var(--surface-panel);
+
+      h3 {
+        margin-bottom: 10px;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--primary);
+      }
+    }
+
+    .chips {
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .chip {
+      padding: 5px 9px;
+      font-size: 0.74rem;
+      background: var(--surface-solid);
     }
   }
 }
