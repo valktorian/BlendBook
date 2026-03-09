@@ -8,10 +8,6 @@
     <app-icon [name]="nextThemeIcon()" [size]="22" [ariaLabel]="nextThemeLabelKey() | translate" />
   </app-round-button>
 
-  <app-round-button class="header-btn lang-btn" [active]="true" (clicked)="toggleLanguage()">
-    {{ ('header.language.' + currentLanguage()) | translate }}
-  </app-round-button>
-
   <app-round-button
     class="header-btn auth-btn"
     [iconOnly]="true"
@@ -23,6 +19,10 @@
       [size]="22"
       [ariaLabel]="(isLoggedIn() ? 'header.nav.logout' : 'header.nav.login') | translate"
     />
+  </app-round-button>
+
+  <app-round-button class="header-btn lang-btn" [active]="true" (clicked)="toggleLanguage()">
+    {{ ('header.language.' + currentLanguage()) | translate }}
   </app-round-button>
 </div>
 

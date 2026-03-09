@@ -1,6 +1,8 @@
 import { httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Cocktail } from '../shared/Models/cocktail.model';
+import { Category } from '../shared/Models/Category.model';
+import { Glass } from '../shared/Models/glass.model';
 import { PagedResponse } from '../shared/Models/paged-response.model';
 
 export type SortDir = 'asc' | 'desc';
@@ -10,6 +12,8 @@ export interface GetCocktailsOptions {
   search?: string;
   sortBy?: string;
   sortDir?: SortDir;
+  categoryId?: number;
+  glassTypeId?: number;
   category?: string;
   glass?: string;
   alcoholic?: boolean;
@@ -70,6 +74,30 @@ export class CocktailsService {
     );
   }
 
+  createCategoriesResource(defaultValue: Category[] = []): HttpResourceRef<Category[]> {
+    return httpResource(
+      () => ({
+        url: `${this.baseUrl}/categories`,
+      }),
+      {
+        parse: (raw) => this.mapCategories(raw),
+        defaultValue,
+      },
+    );
+  }
+
+  createGlassesResource(defaultValue: Glass[] = []): HttpResourceRef<Glass[]> {
+    return httpResource(
+      () => ({
+        url: `${this.baseUrl}/glasses`,
+      }),
+      {
+        parse: (raw) => this.mapGlasses(raw),
+        defaultValue,
+      },
+    );
+  }
+
   buildCocktailsResourceRequest(options?: GetCocktailsOptions) {
     return {
       url: `${this.baseUrl}/cocktails`,
@@ -120,6 +148,36 @@ export class CocktailsService {
     };
   }
 
+  mapCategories(raw: unknown): Category[] {
+    return this.mapLabeledEntities<Category>(raw);
+  }
+
+  mapGlasses(raw: unknown): Glass[] {
+    return this.mapLabeledEntities<Glass>(raw);
+  }
+
+  private mapLabeledEntities<T extends { id: number; label: string; created_at: string; updated_at: string }>(
+    raw: unknown,
+  ): T[] {
+    if (!Array.isArray(raw)) return [];
+
+    return raw.reduce<T[]>((acc, item) => {
+      if (!item || typeof item !== 'object') return acc;
+      const record = item as Record<string, unknown>;
+      const id = record['id'];
+      const label = record['label'];
+      if (typeof id !== 'number' || typeof label !== 'string') return acc;
+
+      acc.push({
+        id,
+        label,
+        created_at: typeof record['created_at'] === 'string' ? record['created_at'] : '',
+        updated_at: typeof record['updated_at'] === 'string' ? record['updated_at'] : '',
+      } as T);
+      return acc;
+    }, []);
+  }
+
   private buildCocktailsResourceParams(options?: GetCocktailsOptions) {
     const params: Record<string, string | number | boolean> = {};
 
@@ -131,6 +189,8 @@ export class CocktailsService {
       params['sort'] = `${options.sortBy}_${options.sortDir}`;
     }
 
+    if (options?.categoryId != null) params['category_id'] = options.categoryId;
+    if (options?.glassTypeId != null) params['glass_type'] = options.glassTypeId;
     if (options?.category) params['category'] = options.category;
     if (options?.glass) params['glass'] = options.glass;
     if (options?.alcoholic != null) params['alcoholic'] = options.alcoholic;

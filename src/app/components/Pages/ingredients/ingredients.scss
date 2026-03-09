@@ -317,22 +317,63 @@
       justify-content: stretch;
     }
 
+    .ingredient-details {
+      padding: 12px;
+      max-height: none;
+      overflow: visible;
+    }
+
     .ingredient-scene {
-      min-height: 660px;
+      min-height: auto;
+      display: grid;
+      gap: 14px;
+      justify-items: center;
+    }
+
+    .ingredient-center {
+      width: min(180px, 56vw);
+      padding: 10px;
     }
 
     .ingredient-orbit {
-      --orbit-size: min(520px, 98vw);
+      position: static;
+      left: auto;
+      top: auto;
+      width: 100%;
+      height: auto;
+      transform: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .detail-point-wrap {
+      position: static;
+      left: auto;
+      top: auto;
+      transform: none !important;
+      width: 100%;
     }
 
     .detail-point {
-      min-width: 120px;
-      max-width: 160px;
-      padding: 6px 8px;
+      min-width: 0;
+      max-width: none;
+      width: 100%;
+      padding: 8px 10px;
+      transform: none;
 
       span {
-        font-size: 0.74rem;
+        font-size: 0.78rem;
       }
+
+      &:hover {
+        transform: none;
+      }
+    }
+
+    .ingredient-description {
+      margin-top: 14px;
+      padding: 10px;
     }
   }
 }

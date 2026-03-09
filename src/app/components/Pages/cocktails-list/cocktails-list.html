@@ -29,6 +29,42 @@
   />
 </div>
 
+<div class="category-filters mb-20">
+  <mat-form-field class="category-select" appearance="fill" subscriptSizing="dynamic">
+    <mat-select
+      [value]="selectedCategoryId()"
+      [panelClass]="categoryPanelClass"
+      [placeholder]="'cocktails.list.categoryLabel' | translate"
+      (valueChange)="selectCategory($event)"
+    >
+      <mat-option [value]="null">
+        {{ 'cocktails.list.filterAllCategories' | translate }}
+      </mat-option>
+
+      @for (category of availableCategories(); track category.id) {
+        <mat-option [value]="category.id">{{ category.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="glass-select" appearance="fill" subscriptSizing="dynamic">
+    <mat-select
+      [value]="selectedGlassTypeId()"
+      [panelClass]="glassPanelClass"
+      [placeholder]="'cocktails.list.glassLabel' | translate"
+      (valueChange)="selectGlassType($event)"
+    >
+      <mat-option [value]="null">
+        {{ 'cocktails.list.filterAllGlasses' | translate }}
+      </mat-option>
+
+      @for (glass of glasses(); track glass.id) {
+        <mat-option [value]="glass.id">{{ glass.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
+
 <app-sorting
   class="sort-row mb-20"
   [sortBy]="sortBy()"

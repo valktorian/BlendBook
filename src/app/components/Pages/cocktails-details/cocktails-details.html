@@ -48,6 +48,10 @@
       </p>
 
       <div class="facts-grid">
+        @if (cocktail()!.glass) {
+          <p><strong>{{ 'cocktails.details.glass' | translate }}</strong> {{ cocktail()!.glass }}</p>
+        }
+
         @if (cocktail()!.instructions) {
           <p><strong>{{ 'cocktails.details.instructions' | translate }}</strong> {{ cocktail()!.instructions }}</p>
         }

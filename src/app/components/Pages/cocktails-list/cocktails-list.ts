@@ -14,9 +14,13 @@ import { RoundButton } from '../../Design/buttons/round-button/round-button';
 import { Loading } from '../../Design/loading/loading';
 import { SearchBar } from '../../Design/search-bar/search-bar';
 import { Pagination } from '../../Design/pagination/pagination';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { CocktailsService, SortDir } from '../../../Services/cocktails.service';
 import { ToastService } from '../../../Services/toast.service';
 import { Cocktail } from '../../../shared/Models/cocktail.model';
+import { Category } from '../../../shared/Models/Category.model';
+import { Glass } from '../../../shared/Models/glass.model';
 import { SortBy, Sorting } from '../../Design/sorting/sorting';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { I18nService } from '../../../Services/i18n.service';
@@ -28,11 +32,24 @@ import {
 @Component({
   selector: 'app-cocktails-list',
   standalone: true,
-  imports: [Icon, RoundButton, Pagination, Loading, Sorting, SearchBar, AddCocktailForm, TranslatePipe],
+  imports: [
+    Icon,
+    RoundButton,
+    Pagination,
+    Loading,
+    Sorting,
+    SearchBar,
+    AddCocktailForm,
+    TranslatePipe,
+    MatFormFieldModule,
+    MatSelectModule,
+  ],
   templateUrl: './cocktails-list.html',
   styleUrl: './cocktails-list.scss',
 })
 export class CocktailsList {
+  private readonly alcoholicCategoryIds = new Set<number>([1, 2, 3, 6, 8, 9, 10]);
+  private readonly nonAlcoholicCategoryIds = new Set<number>([4, 5, 7, 11]);
   private readonly cocktailsService = inject(CocktailsService);
   private readonly toastService = inject(ToastService);
   private readonly i18nService = inject(I18nService);
@@ -53,6 +70,8 @@ export class CocktailsList {
   readonly sortDir = signal<SortDir>('asc');
   readonly alcoholicSortDir = signal<SortDir>('asc');
   readonly createdAtSortDir = signal<SortDir>('asc');
+  readonly selectedCategoryId = signal<number | null>(null);
+  readonly selectedGlassTypeId = signal<number | null>(null);
   readonly pageSize = 10;
   readonly showAddCocktailModal = signal(false);
   readonly editingCocktailId = signal<Cocktail['id'] | null>(null);
@@ -66,11 +85,15 @@ export class CocktailsList {
       page: this.currentPage(),
       perPage: this.pageSize,
       alcoholic: this.preselectedId() == null ? this.alcoholicOnly() : undefined,
+      categoryId: this.selectedCategoryId() ?? undefined,
+      glassTypeId: this.selectedGlassTypeId() ?? undefined,
       sortBy: this.sortBy(),
       sortDir: this.sortDir(),
     }),
     { data: [] },
   );
+  readonly categoriesResource = this.cocktailsService.createCategoriesResource([]);
+  readonly glassesResource = this.cocktailsService.createGlassesResource([]);
   readonly cocktailsAutocompleteResource =
     this.cocktailsService.createCocktailsAutocompleteResource(() => this.searchTerm(), {
       data: [],
@@ -119,12 +142,20 @@ export class CocktailsList {
       : null,
   );
   readonly totalPages = computed(() => {
+    if (this.isSearchMode()) {
+      return 1;
+    }
+
     const source = this.isSearchMode()
       ? this.cocktailsAutocompleteResource.value()
       : this.cocktailsResource.value();
     return source.pagination?.pages ?? source.meta?.totalPages ?? 1;
   });
   readonly totalCount = computed(() => {
+    if (this.isSearchMode()) {
+      return this.cocktails().length;
+    }
+
     const source = this.isSearchMode()
       ? this.cocktailsAutocompleteResource.value()
       : this.cocktailsResource.value();
@@ -133,6 +164,23 @@ export class CocktailsList {
     return remoteCount + this.filteredLocalCocktails().length;
   });
   readonly isEditMode = computed(() => this.editingCocktailId() != null);
+  readonly categories = computed(() => this.categoriesResource.value() ?? []);
+  readonly availableCategories = computed(() => {
+    const allowedIds = this.alcoholicOnly()
+      ? this.alcoholicCategoryIds
+      : this.nonAlcoholicCategoryIds;
+
+    return this.categories().filter((category) => allowedIds.has(category.id));
+  });
+  readonly selectedCategory = computed(() =>
+    this.availableCategories().find((category) => category.id === this.selectedCategoryId()) ?? null,
+  );
+  readonly glasses = computed(() => this.glassesResource.value() ?? []);
+  readonly selectedGlass = computed(() =>
+    this.glasses().find((glass) => glass.id === this.selectedGlassTypeId()) ?? null,
+  );
+  readonly categoryPanelClass = 'category-select-panel';
+  readonly glassPanelClass = 'glass-select-panel';
 
   constructor() {
     this.loadMockCocktails();
@@ -153,6 +201,17 @@ export class CocktailsList {
       if (this.sortBy() !== 'created_at') this.sortBy.set('created_at');
       if (this.sortDir() !== 'asc') this.sortDir.set('asc');
       if (this.createdAtSortDir() !== 'asc') this.createdAtSortDir.set('asc');
+    });
+    effect(() => {
+      const selectedCategoryId = this.selectedCategoryId();
+      if (selectedCategoryId == null) return;
+
+      const categoryStillAvailable = this.availableCategories().some(
+        (category) => category.id === selectedCategoryId,
+      );
+      if (!categoryStillAvailable) {
+        this.selectedCategoryId.set(null);
+      }
     });
     effect(() => {
       const preselected = this.preselectedId();
@@ -177,6 +236,13 @@ export class CocktailsList {
         !items.some((cocktail) => String(cocktail.id) === String(currentSelectedId))
       ) {
         this.resetSelection();
+      }
+    });
+    effect(() => {
+      const page = this.currentPage();
+      const maxPage = this.totalPages();
+      if (page > maxPage) {
+        this.currentPage.set(maxPage);
       }
     });
   }
@@ -211,6 +277,20 @@ export class CocktailsList {
   applySearch(term: string): void {
     this.resetSelection();
     this.searchTerm.set(term.trim());
+    this.currentPage.set(1);
+  }
+
+  selectCategory(categoryId: number | null): void {
+    if (this.selectedCategoryId() === categoryId) return;
+    this.resetSelection();
+    this.selectedCategoryId.set(categoryId);
+    this.currentPage.set(1);
+  }
+
+  selectGlassType(glassTypeId: number | null): void {
+    if (this.selectedGlassTypeId() === glassTypeId) return;
+    this.resetSelection();
+    this.selectedGlassTypeId.set(glassTypeId);
     this.currentPage.set(1);
   }
 
@@ -384,11 +464,29 @@ export class CocktailsList {
     }
   }
 
-  private matchesCurrentFilters(cocktail: Cocktail): boolean {
+  private matchesContextFilters(cocktail: Cocktail): boolean {
     if (this.preselectedId() == null) {
       const listAlcoholic = this.alcoholicOnly();
       const cocktailAlcoholic = cocktail.alcoholic ?? true;
       if (cocktailAlcoholic !== listAlcoholic) return false;
+    }
+
+    const selectedCategory = this.selectedCategory();
+    if (selectedCategory) {
+      const cocktailCategory = (cocktail.category ?? '').trim().toLowerCase();
+      if (cocktailCategory !== selectedCategory.label.trim().toLowerCase()) return false;
+    }
+
+    return true;
+  }
+
+  private matchesCurrentFilters(cocktail: Cocktail): boolean {
+    if (!this.matchesContextFilters(cocktail)) return false;
+
+    const selectedGlass = this.selectedGlass();
+    if (selectedGlass) {
+      const cocktailGlass = (cocktail.glass ?? '').trim().toLowerCase();
+      if (cocktailGlass !== selectedGlass.label.trim().toLowerCase()) return false;
     }
 
     const term = this.searchTerm().trim().toLowerCase();

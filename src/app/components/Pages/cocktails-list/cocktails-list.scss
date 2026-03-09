@@ -47,6 +47,76 @@
     display: block;
   }
 
+  .category-filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .category-select,
+  .glass-select {
+    width: min(100%, 220px);
+
+    ::ng-deep {
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
+
+      .mat-mdc-form-field-flex {
+        background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
+        border-radius: var(--radius-pill);
+      }
+
+      .mat-mdc-text-field-wrapper,
+      .mdc-text-field,
+      .mat-mdc-form-field-infix {
+        border-radius: var(--radius-pill);
+      }
+
+      .mat-mdc-text-field-wrapper {
+        min-height: 42px;
+        height: 42px;
+        padding-inline: 14px;
+        background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
+      }
+
+      .mdc-line-ripple {
+        display: none;
+      }
+
+      .mdc-text-field--filled {
+        border: 1px solid color-mix(in srgb, var(--primary) 26%, var(--border-soft));
+        background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
+      }
+
+      .mat-mdc-form-field-infix {
+        min-height: 42px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .mdc-floating-label,
+      .mat-mdc-select-value,
+      .mat-mdc-select-arrow,
+      .mat-mdc-form-field-icon-suffix {
+        color: var(--text-color) !important;
+      }
+
+      .mat-mdc-select-value-text {
+        color: var(--text-color);
+        font-size: 0.92rem;
+      }
+
+      &.mat-focused {
+        .mdc-text-field--filled {
+          border-color: var(--primary);
+          box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 30%, transparent);
+        }
+      }
+    }
+  }
+
   .item-row {
     display: flex;
     align-items: center;
@@ -229,6 +299,15 @@
       app-search-bar {
         margin-left: 0;
       }
+    }
+
+    .category-filters {
+      width: 100%;
+    }
+
+    .category-select,
+    .glass-select {
+      width: 100%;
     }
 
     .item-row {
